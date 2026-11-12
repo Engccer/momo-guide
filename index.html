@@ -103,7 +103,7 @@ details div{font-size:.6em;background:#fff;border:1px solid var(--line);border-r
 <li>시계 앱 열기</li>
 <li>아래쪽 ‘스톱워치’ 누르기</li>
 <li>출발할 때 ‘시작’ 누르기</li>
-<li>도착하면 갤럭시는 ‘중지’, 아이폰은 ‘중단’ 누르기</li>
+<li>도착하면 ‘중지’ 또는 ‘중단’ 버튼 누르기</li>
 </ol>
 </section>
 
@@ -118,24 +118,23 @@ details div{font-size:.6em;background:#fff;border:1px solid var(--line);border-r
 </section>
 
 <section class="slide" data-stage="선발대가 나간 동안" hidden>
-<h1 tabindex="-1">휠체어 탐사대 뽑기</h1>
+<h1 tabindex="-1">휠체어 탐사대 대원 5명 역할</h1>
 <ul>
-<li>다섯 명</li>
-<li>원하지 않으면 ‘패스’</li>
-<li>뽑히지 않은 사람은 플로어 패널</li>
+<li>대원 1 휠체어 사용자: 휠체어를 타고 가기</li>
+<li>대원 2 휠체어 도우미: 휠체어 밀기</li>
+<li>대원 3 시간 측정: 화장실 문 앞까지 시간 재기</li>
+<li>대원 4 기록: 탐사일지 쓰기</li>
+<li>대원 5 촬영: 사진과 영상 남기기</li>
 </ul>
-<p><a href="https://engccer.github.io/pickme/" target="_blank" rel="noopener">픽미 앱 열기</a></p>
 </section>
 
 <section class="slide" data-stage="선발대가 나간 동안" hidden>
-<h1 tabindex="-1">휠체어 탐사대의 다섯 역할</h1>
-<ol>
-<li>휠체어 이용자: 휠체어를 타고 가기</li>
-<li>휠체어 도우미: 평평한 길에서 밀기</li>
-<li>시간 측정: 화장실 문 앞까지 시간 재기</li>
-<li>기록: 탐사일지 쓰기</li>
-<li>촬영: 사진과 영상 남기기</li>
-</ol>
+<h1 tabindex="-1">휠체어 탐사대 뽑기</h1>
+<ul>
+<li>다섯 명</li>
+<li>뽑히지 않은 사람은 플로어 패널</li>
+</ul>
+<p><a href="https://engccer.github.io/pickme/" target="_blank" rel="noopener">픽미 앱 열기</a></p>
 </section>
 
 <section class="slide" data-stage="선발대가 나간 동안" hidden>
@@ -228,7 +227,7 @@ details div{font-size:.6em;background:#fff;border:1px solid var(--line);border-r
 
 <section class="slide" data-stage="마무리" hidden>
 <h1 tabindex="-1">다음 시간에는</h1>
-<p class="lead">시각장애인의 입장에서 우리 학교 탐사하기</p>
+<p class="lead">출동, 흰지팡이 탐사대</p>
 </section>
 
 </div>
@@ -238,6 +237,7 @@ details div{font-size:.6em;background:#fff;border:1px solid var(--line);border-r
 <select id="toc"></select>
 <span id="live" aria-live="polite"></span>
 <button type="button" id="next">다음</button>
+<button type="button" id="snd">소리 끄기</button>
 </div>
 <script>
 (function(){
@@ -257,7 +257,11 @@ details div{font-size:.6em;background:#fff;border:1px solid var(--line);border-r
     toc.value=i;live.textContent=pos()+(focus===false?', '+title(cur):'');
     if(location.hash!=='#'+(i+1))history.replaceState(null,'','#'+(i+1));
     if(focus!==false)slides[cur].querySelector('h1').focus();
+    say();
   }
+  var au=new Audio(),sndOn=true,snd=document.getElementById('snd');
+  function say(){au.pause();if(!sndOn)return;au.src='audio/slide-'+String(cur+1).padStart(2,'0')+'.mp3';var p=au.play();if(p)p.catch(function(){});}
+  snd.onclick=function(){sndOn=!sndOn;snd.textContent=sndOn?'소리 끄기':'소리 켜기';if(!sndOn)au.pause();};
   document.getElementById('prev').onclick=function(){go(cur-1,false);};
   document.getElementById('next').onclick=function(){go(cur+1,false);};
   toc.onchange=function(){go(+toc.value,false);};
