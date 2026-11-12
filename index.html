@@ -97,7 +97,7 @@ a{color:var(--accent)}
 <p class="stage">오리엔테이션 (14:15~14:20)</p>
 <h2 id="t4" tabindex="-1">네 팀이 하는 일</h2>
 <div class="grid2">
-<div class="box"><h3>걷기 팀 <span class="who">2명, 선발대</span></h3><p>평소처럼 걸어서 화장실까지 가고 시간을 잽니다.</p></div>
+<div class="box"><h3>걷기 팀 <span class="who">2명, 선발대</span></h3><p>걸어서 화장실 두 곳까지 가고 시간을 잽니다.</p></div>
 <div class="box"><h3>옵저버 팀 <span class="who">3명, 선발대</span></h3><p>휠체어가 갈 수 있는 길인지 살펴보고 옵니다.</p></div>
 <div class="box"><h3>휠체어 탐사대 <span class="who">5명</span></h3><p>휠체어로 직접 가 보고, 재고, 기록합니다.</p></div>
 <div class="box"><h3>플로어 패널 <span class="who">나머지 모두</span></h3><p>자료를 읽고 탐사대에게 할 질문을 준비합니다.</p></div>
@@ -110,7 +110,7 @@ a{color:var(--accent)}
 <p class="stage">오리엔테이션 (14:15~14:20)</p>
 <h2 id="t5" tabindex="-1">선발대의 미션</h2>
 <div class="grid2">
-<div class="box"><h3>걷기 팀</h3><ul><li>한 명은 걷고, 한 명은 시간을 잽니다.</li><li>영어교과실 문에서 화장실 문 앞까지 갑니다.</li><li>평소 다니는 길로, 뛰지 않고 걷습니다.</li><li>걸린 시간을 카드에 적어 옵니다.</li></ul></div>
+<div class="box"><h3>걷기 팀</h3><ul><li>한 사람이 화장실 한 곳씩 맡습니다.</li><li>걷기 1: 별관 화장실 (우리가 평소 가는 곳)</li><li>걷기 2: 본관 1층 교직원화장실 (휠체어로 갈 수 있는 곳)</li><li>영어교과실 문에서 출발해 평소 걸음으로 걷고, 자기 시간을 잽니다.</li></ul></div>
 <div class="box"><h3>옵저버 팀</h3><ul><li>한 사람이 한 구간을 맡습니다: 별관 안, 바깥 길, 본관 안.</li><li>계단이나 턱이 있나요?</li><li>휠체어가 지나갈 수 있나요?</li><li>못 지나가면 다른 길이 있나요?</li></ul></div>
 </div>
 <p class="lead">6분 안에 돌아옵니다. 자세한 내용은 미션 카드에 있습니다.</p>
@@ -201,11 +201,11 @@ a{color:var(--accent)}
 <p class="stage">선발대 보고 (14:27~14:29)</p>
 <h2 id="t13" tabindex="-1">선발대 보고</h2>
 <div class="grid2">
-<div class="box"><h3>걷기 팀</h3><p><label for="walk">걸어서 걸린 시간</label> <input type="text" id="walk" autocomplete="off"></p></div>
+<div class="box"><h3>걷기 팀</h3><p><label for="near">별관 화장실까지</label> <input type="text" id="near" autocomplete="off"></p><p><label for="walk">본관 교직원화장실까지</label> <input type="text" id="walk" autocomplete="off"></p></div>
 <div class="box"><h3>옵저버 팀</h3><p>“(구간)은 휠체어로 갈 수 (있습니다 / 없습니다). 이유는 ___입니다.”</p><ol><li>별관 안</li><li>바깥 길</li><li>본관 안</li></ol></div>
 </div>
 <p class="lead">보고가 끝나면 휠체어 탐사대가 출동합니다.</p>
-<aside class="notes"><h3>발표자 메모 (김헌용, 2분)</h3><p>걷기 팀 시간을 입력칸에 적어 둔다(17번 화면에 다시 나온다). 옵저버 세 명이 한 문장씩 보고한다. 탐사대는 이 보고를 듣고 출발한다. 선발대는 이제 플로어 패널이다.</p></aside>
+<aside class="notes"><h3>발표자 메모 (김헌용, 2분)</h3><p>걷기 팀의 두 시간을 입력칸에 적어 둔다(17번 화면에 다시 나온다). 옵저버 세 명이 한 문장씩 보고한다. 탐사대는 이 보고를 듣고 출발한다. 선발대는 이제 플로어 패널이다.</p></aside>
 </section>
 
 <section class="slide" hidden>
@@ -244,12 +244,16 @@ a{color:var(--accent)}
 <section class="slide" hidden>
 <p class="stage">돌아와서 (14:43~14:55)</p>
 <h2 id="t17" tabindex="-1">걸린 시간 비교</h2>
-<div class="grid2">
-<div class="box"><p><label for="walk2">걸어서</label> <input type="text" id="walk2" autocomplete="off"></p></div>
-<div class="box"><p><label for="wheel">휠체어로</label> <input type="text" id="wheel" autocomplete="off"></p></div>
+<div class="grid3">
+<div class="box"><p><label for="near2">걸어서 별관 화장실까지</label></p><p><input type="text" id="near2" autocomplete="off"></p></div>
+<div class="box"><p><label for="walk2">걸어서 본관 교직원화장실까지</label></p><p><input type="text" id="walk2" autocomplete="off"></p></div>
+<div class="box"><p><label for="wheel">휠체어로 본관 교직원화장실까지</label></p><p><input type="text" id="wheel" autocomplete="off"></p></div>
 </div>
-<p class="lead">같은 곳에서 출발해 같은 곳에 도착했습니다. 왜 시간이 다를까요?</p>
-<aside class="notes"><h3>발표자 메모 (김헌용, 2분)</h3><p>차이는 어느 길로 가야 하는가를 보여 준다. 처음 휠체어를 탄 친구의 속도는 실제 이용자와 다르고, 계단에서 휠체어를 옮긴 시간과 재느라 멈춘 시간이 섞였다는 점도 함께 말한다.</p></aside>
+<ol>
+<li>우리는 별관 화장실에 갑니다. 휠체어로 갈 수 있는 화장실은 본관에 하나뿐입니다.</li>
+<li>같은 본관 화장실에 가도 걸어서 갈 때와 휠체어로 갈 때 시간이 다릅니다.</li>
+</ol>
+<aside class="notes"><h3>발표자 메모 (김헌용, 2분)</h3><p>첫째 비교는 갈 수 있는 화장실이 다르다는 것, 둘째 비교는 같은 화장실도 가는 길과 시간이 다르다는 것을 보여 준다. 본관 교직원화장실은 평소 학생이 쓰지 않는 곳이라는 점도 말한다. 처음 휠체어를 탄 친구의 속도는 실제 이용자와 다르고, 계단에서 휠체어를 옮긴 시간과 재느라 멈춘 시간이 섞였다는 점도 함께 말한다.</p></aside>
 </section>
 
 <section class="slide" hidden>
@@ -341,6 +345,8 @@ a{color:var(--accent)}
   document.getElementById('timerReset').onclick=function(){stop();left=840;show();msg.textContent='';};
   var w1=document.getElementById('walk'),w2=document.getElementById('walk2');
   w1.oninput=function(){w2.value=w1.value;};
+  var n1=document.getElementById('near'),n2=document.getElementById('near2');
+  n1.oninput=function(){n2.value=n1.value;};
   var h=parseInt(location.hash.slice(1),10);
   if(h>=1&&h<=slides.length)go(h-1,false);
 })();
