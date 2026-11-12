@@ -34,12 +34,22 @@ input.wide{width:100%}
 button,select{font:inherit;font-size:clamp(16px,1.3vw,22px);min-height:44px;min-width:44px;padding:.2em .8em;border:2px solid var(--accent);border-radius:8px;background:#fff;color:var(--accent);cursor:pointer}
 a{color:var(--accent);display:inline-flex;align-items:center;min-height:44px}
 button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
-details summary{cursor:pointer;font-size:.6em;color:var(--sub);min-height:44px;display:flex;align-items:center}
-details div{font-size:.6em;background:#fff;border:1px solid var(--line);border-radius:8px;padding:.6em 1em}
-.controls{display:flex;flex-wrap:wrap;gap:.6em;align-items:center;justify-content:center;padding:.6em 1em;border-top:1px solid var(--line);background:#fff;font-size:clamp(14px,1.1vw,18px);color:var(--sub)}
+details summary{cursor:pointer;font-size:max(16px,.6em);color:var(--sub);min-height:44px;display:flex;align-items:center}
+details div{font-size:max(16px,.6em);background:#fff;border:1px solid var(--line);border-radius:8px;padding:.6em 1em}
+.controls{display:flex;flex-wrap:wrap;gap:.6em;align-items:center;justify-content:center;padding:.6em 1em;border-top:1px solid var(--line);background:#fff;font-size:clamp(16px,1.1vw,18px);color:var(--sub)}
+.controls .row{display:flex;gap:.6em;align-items:center;min-width:0}
+.controls label,.controls button{white-space:nowrap}
+#live{min-width:5em;text-align:center}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17141d;--ink:#f1edf7;--sub:#c9c1d6;--accent:#d7b3f0;--line:#3d3550;--card:#221d2b;--focus:#ffb37a}
  :root:not([data-theme="light"]) button,:root:not([data-theme="light"]) select,:root:not([data-theme="light"]) .controls,:root:not([data-theme="light"]) details div,:root:not([data-theme="light"]) input[type=text]{background:var(--card);color:var(--ink)}}
-@media (max-width:700px){.slide{padding:16px}}
+@media (max-width:700px){.slide{padding:16px}
+ .controls{flex-direction:column;align-items:stretch;padding:.5em 16px}
+ .controls .row{justify-content:space-between;flex-wrap:wrap}
+ #live{flex:1}
+ #toc{flex:1 1 7em;min-width:0}
+ .frame{display:block}
+ .support{position:static;margin-top:.4em;font-size:16px;color:var(--ink)}}
+@media (max-height:500px){.orig img{max-height:80vh}}
 </style>
 </head>
 <body>
@@ -232,12 +242,16 @@ details div{font-size:.6em;background:#fff;border:1px solid var(--line);border-r
 
 </div>
 <div class="controls">
+<div class="row">
 <button type="button" id="prev">이전</button>
-<label for="toc">슬라이드 목차</label>
-<select id="toc"></select>
 <span id="live" aria-live="polite"></span>
 <button type="button" id="next">다음</button>
+</div>
+<div class="row">
+<label for="toc">슬라이드 목차</label>
+<select id="toc"></select>
 <button type="button" id="snd">소리 끄기</button>
+</div>
 </div>
 <script>
 (function(){
@@ -254,7 +268,7 @@ details div{font-size:.6em;background:#fff;border:1px solid var(--line);border-r
   function go(i,focus){
     if(i<0||i>=slides.length)return;
     slides[cur].hidden=true;cur=i;slides[cur].hidden=false;
-    toc.value=i;live.textContent=pos()+(focus===false?', '+title(cur):'');
+    toc.value=i;live.textContent=pos();
     if(location.hash!=='#'+(i+1))history.replaceState(null,'','#'+(i+1));
     if(focus!==false)slides[cur].querySelector('h1').focus();
     say();
@@ -262,8 +276,8 @@ details div{font-size:.6em;background:#fff;border:1px solid var(--line);border-r
   var au=new Audio(),sndOn=true,snd=document.getElementById('snd');
   function say(){au.pause();if(!sndOn)return;au.src='audio/slide-'+String(cur+1).padStart(2,'0')+'.mp3';var p=au.play();if(p)p.catch(function(){});}
   snd.onclick=function(){sndOn=!sndOn;snd.textContent=sndOn?'소리 끄기':'소리 켜기';if(!sndOn)au.pause();};
-  document.getElementById('prev').onclick=function(){go(cur-1,false);};
-  document.getElementById('next').onclick=function(){go(cur+1,false);};
+  document.getElementById('prev').onclick=function(){go(cur-1);};
+  document.getElementById('next').onclick=function(){go(cur+1);};
   toc.onchange=function(){go(+toc.value,false);};
   document.addEventListener('keydown',function(e){
     var t=e.target.tagName;
@@ -277,19 +291,20 @@ details div{font-size:.6em;background:#fff;border:1px solid var(--line);border-r
   });
   function mirror(a,b){a=document.getElementById(a);b=document.getElementById(b);a.oninput=function(){b.value=a.value;};}
   mirror('near','near2');mirror('walk','walk2');
-  var left=840,tid=null,el=document.getElementById('timer'),btn=document.getElementById('timerBtn');
+  var left=840,tid=null,end=0,warned=false,el=document.getElementById('timer'),btn=document.getElementById('timerBtn');
   function show(){el.textContent=String(Math.floor(left/60)).padStart(2,'0')+':'+String(left%60).padStart(2,'0');}
   function stop(){clearInterval(tid);tid=null;btn.textContent='타이머 시작';}
   btn.onclick=function(){
     if(tid){stop();return;}
-    if(left<=0){left=840;show();}
+    if(left<=0){left=840;warned=false;show();}
     btn.textContent='타이머 멈춤';
-    tid=setInterval(function(){left--;show();
-      if(left===300)live.textContent=pos()+', 5분 남았습니다.';
+    end=Date.now()+left*1000;
+    tid=setInterval(function(){left=Math.max(0,Math.round((end-Date.now())/1000));show();
       if(left<=0){stop();live.textContent=pos()+', 14분이 끝났습니다.';}
+      else if(left<=300&&!warned){warned=true;live.textContent=pos()+', 5분 남았습니다.';}
     },1000);
   };
-  document.getElementById('timerReset').onclick=function(){stop();left=840;show();};
+  document.getElementById('timerReset').onclick=function(){stop();left=840;warned=false;show();};
   live.textContent=pos();
   var h=parseInt(location.hash.slice(1),10);
   if(h>=1&&h<=slides.length)go(h-1,false);
